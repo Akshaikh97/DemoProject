@@ -1,0 +1,138 @@
+﻿@model IEnumerable<DemoProject.Models.UserModel>
+
+@{
+    ViewBag.Title = "userListing";
+}
+
+<h2>userListing</h2>
+
+<p>
+    @Html.ActionLink("Create New", "saveUser")
+</p>
+
+
+@using (Html.BeginForm("userListing", "User", FormMethod.Post))
+{
+    <div class="form">
+        <div class="form-group">
+
+            <div class="col-md-6">
+                @Html.TextBox("fsSearch", null, new { @class = "form-control", @placeholder = "Search..", @style = "max-wdth:100%" })
+
+            </div>
+            <h5 class="float-end"> Total Records :<b> @ViewBag.Msg </b></h5>
+
+            <div class="col-md-2">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+
+    </div>
+}
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.ActionLink("Id", "userListing", new { fstSortOrder = ViewBag.stSortOrder == null ? "ASC" : (ViewBag.stSortOrder == "ASC" ? "DESC" : "ASC"), fstSortColumn = "inUserId", inPageIndex = ViewBag.inPageIndex })
+
+        </th>
+
+        <th>
+            @Html.ActionLink("stUserName", "userListing", new { fstSortOrder = ViewBag.stSortOrder == null ? "ASC" : (ViewBag.stSortOrder == "ASC" ? "DESC" : "ASC"), fstSortColumn = "stUserName", inPageIndex = ViewBag.inPageIndex })
+        </th>
+
+        <th>
+            @Html.ActionLink("Date Of Birth", "userListing", new { fstSortOrder = ViewBag.stSortOrder == null ? "ASC" : (ViewBag.stSortOrder == "ASC" ? "DESC" : "ASC"), fstSortColumn = "dtUserBirthDate", inPageIndex = ViewBag.inPageIndex })
+        </th>
+        <th>
+            @Html.ActionLink("Email Address", "userListing", new { fstSortOrder = ViewBag.stSortOrder == null ? "ASC" : (ViewBag.stSortOrder == "ASC" ? "DESC" : "ASC"), fstSortColumn = "stUserEmail", inPageIndex = ViewBag.inPageIndex })
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.stCreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dtUserCreationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dtUserModificationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dtUserDeletionDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.flgIsActive)
+        </th>
+        <th>
+            @Html.Label("Action")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.inUserId)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.stUserName)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.dtUserBirthDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.stUserEmail)
+    </td>
+    <td>
+            @Html.DisplayFor(modelItem => item.stCreatedBy)
+        </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.dtUserCreationDate)
+    </td>
+
+    
+        <td>
+            @Html.DisplayFor(modelItem => item.dtUserModificationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dtUserDeletionDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.flgIsActive)
+        </td>
+    <td>
+
+        @Html.ActionLink("Edit", "editUser", new { fiId = item.inUserId }) |
+        @* @Html.ActionLink("Details", "Details", new { id=item.inUserId }) |*@
+        @Html.ActionLink("Delete", "deleteUser", new { fiId = item.inUserId }, new { onclick = "return confirm('Are You Sure To Delete This')" })
+    </td>
+</tr>
+    }
+
+</table>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="pagination ">
+            @{
+                double ldTotalPages = ViewBag.lblPages;
+                for (int fiPageCount = 1; fiPageCount <= ldTotalPages; fiPageCount++)
+                {
+
+                    <li class="page-item">
+
+                        @Html.ActionLink(fiPageCount.ToString(), "userListing", new { fstSortOrder = ViewBag.stSortOrder == null ? "ASC" : ViewBag.stSortOrder, inPageIndex = fiPageCount }, new { @class = "btn btn-primary card text-dark" })
+                    &nbsp;&nbsp;
+                    </li>
+
+                }
+            }
+
+        </ul>
+        </div>
+</div>
